@@ -7,93 +7,72 @@ import Schedule from '../../packages/index.js'
 
 export default {
   name: "OrderSchedule",
-  components:{
-      [Schedule.name]:Schedule
+  components: {
+    [Schedule.name]: Schedule
   },
   data() {
     return {
-      month: "",
-      rows: [],
+      year: "",
+      rows: [
+        {
+          key: '01',
+          title: "1月"
+        },
+        {
+          key: '02',
+          title: "2月"
+        },
+        {
+          key: '03',
+          title: "3月"
+        },
+        {
+          key: '04',
+          title: "4月"
+        },
+        {
+          key: '05',
+          title: "5月"
+        },
+        {
+          key: '06',
+          title: "6月"
+        },
+        {
+          key: '07',
+          title: "7月"
+        },
+        {
+          key: '08',
+          title: "8月"
+        },
+        {
+          key: '09',
+          title: "9月"
+        },
+        {
+          key: '10',
+          title: "10月"
+        },
+        {
+          key: '11',
+          title: "11月"
+        },
+        {
+          key: '12',
+          title: "12月"
+        },],
       selectId: undefined,
-      startDate: undefined,
-      endDate: undefined
+      startDate: '',
+      endDate: ''
     };
   },
   mounted() {
     // 初始化月份
-    this.month = moment().format("YYYY-MM");
-    this.getData(this.month);
+    this.year = moment().format("YYYY");
   },
   methods: {
-    // 获取数据
-    getData(date) {
-      // console.log("获取数据:", date);
-      // 从接口获取数据
-      this.rows = [
-        {
-          key: 1,
-          title: "01号广告位",
-          events: {
-            20190701: { sn: "订单号1213121", type: "order" },
-            20190702: { sn: "订单号1213122", type: "ssp" },
-            20190703: { sn: "订单号1213123", type: "order" },
-            20190720: { sn: "订单号1213155", type: "order" }
-          }
-        },
-        {
-          key: 2,
-          title: "02号广告位",
-          events: {
-            20190710: { sn: "订单号1213121", type: "order" },
-            20190711: { sn: "订单号1213122", type: "ssp" },
-            20190712: { sn: "订单号1213123", type: "order" },
-            20190713: { sn: "订单号1213155", type: "order" }
-          }
-        },
-        {
-          key: 3,
-          title: "03号广告位",
-          events: {
-            20190701: { sn: "订单号1213121", type: "order" }
-          }
-        },
-        {
-          key: 4,
-          title: "04号广告位",
-          events: {
-            20190720: { sn: "订单号1213121", type: "review" },
-            20190721: { sn: "订单号1213121", type: "review" },
-            20190722: { sn: "订单号1213121", type: "review" },
-            20190723: { sn: "订单号1213121", type: "review" },
-            20190724: { sn: "订单号1213121", type: "review" },
-            20190725: { sn: "订单号1213121", type: "review" }
-          }
-        },
-        {
-          key: 5,
-          title: "05号广告位",
-          events: {
-            20190820: { sn: "订单号1213121", type: "ssp" },
-            20190821: { sn: "订单号1213121", type: "ssp" },
-            20190822: { sn: "订单号1213121", type: "ssp" },
-            20190823: { sn: "订单号1213121", type: "ssp" },
-            20190824: { sn: "订单号1213121", type: "ssp" },
-            20190825: { sn: "订单号1213121", type: "ssp" }
-          }
-        },
-        {
-          key: 6,
-          title: "06号广告位",
-          events: {
-            20190805: { sn: "订单号1213121", type: "order" },
-            20190806: { sn: "订单号1213121", type: "order" },
-            20190807: { sn: "订单号1213121", type: "order" },
-            20190808: { sn: "订单号1213121", type: "order" },
-            20190809: { sn: "订单号1213121", type: "order" }
-          }
-        }
-      ];
-    },
+
     // 重写单元格内容,
     cellRender(date, row) {
       const _this = this;
@@ -101,27 +80,25 @@ export default {
       const { key, events } = row || {};
 
       // 获取当前单元格日期的事件
-      const dKey = date.format("YYYYMMDD");
+      const dKey = date.format("YYYY-MM-DD");
 
       const ev = events && dKey in events ? events[dKey] : undefined;
       const { type = "", sn } = ev || {};
 
-      
+
       // 过期
       let disable = "";
-      if (moment().isAfter(date)) {
-        disable = "disabled";
-      }
+      // if (moment().isAfter(date)) {
+      //   disable = "disabled";
+      // }
 
       // 选中判断
       let active = "";
-      if (key === _this.selectId && !type && !disable) {
-        active =
-          date.isSame(_this.startDate, "day") ||
-          date.isSame(_this.endDate, "day") ||
-          date.isBetween(_this.startDate, _this.endDate, "day")
-            ? "active"
-            : "";
+      //console.log(_this.startDate,'s')
+      if (!type) {
+        
+        active = date.isSame(_this.startDate, "day") || date.isSame(_this.endDate, "day") || date.isBetween(_this.startDate, _this.endDate, "day") ? "active" : "";
+        //console.log('active',_this.startDate,date.isSame('', "day"))
       }
 
       const thisDate = date.format("YYYY-MM-DD");
@@ -129,7 +106,7 @@ export default {
         <div
           class={`tag ${type} ${active} ${disable}`}
           onClick={_ => {
-            (!type && !disable) && _this.onSelect(thisDate, row);
+            (!type) && _this.onSelect(thisDate, row);
           }}
         >
           {dKey}
@@ -143,13 +120,14 @@ export default {
     },
     // 当选择
     onSelect(date, row) {
+      console.log(date, 'onSelect')
       const { key } = row || {};
-      // 禁此选择
-      if (moment().isAfter(date)) {
-        return;
-      }
+      // // 禁此选择
+      // if (moment().isAfter(date)) {
+      //   return;
+      // }
       // first click
-      if (!this.startDate || this.selectId !== key) {
+      if (!this.startDate) {
         this.startDate = date;
         this.endDate = date;
         this.selectId = key;
@@ -161,30 +139,15 @@ export default {
           this.startDate = date;
         }
       }
-      console.log(this.selectId, this.startDate, this.endDate);
+      console.log(this.startDate, this.endDate);
     }
   }
 };
 </script>
 <template>
   <div class="order-schedule">
-    <div >
-      <span class="example">图例:
-      <i class="el-icon-star-on" /> 已选择
-      <el-tag type="danger">预购</el-tag>
-      <el-tag type="success">订单订购</el-tag>
-      <el-tag type="warning">SSP占用</el-tag>
-      <el-tag type="info">空闲</el-tag>
-      </span>
-    </div>
     <div>
-    <ac-schedule
-      title="广告位名称"
-      :month="month"
-      :rows="rows"
-      :cellRender="cellRender"
-      @change="onChange"
-    />
+      <ac-schedule title="月/日" :year="year" :rows="rows" :cellRender="cellRender" @change="onChange" />
     </div>
   </div>
 </template>
@@ -192,12 +155,7 @@ export default {
 .order-schedule {
   margin: 25px;
 }
-.example {
-  margin: 15px;
-  float: right;
-  font-size: 12px;
-  clear: both;
-}
+
 .sc-schedule .cell .tag {
   display: inline-block;
   height: 100%;
@@ -207,7 +165,7 @@ export default {
 .sc-schedule .cell .tag,
 .example .tag {
   background: #fff;
-  font-size:0;
+  font-size: 0;
 }
 
 .sc-schedule .cell .tag.active {

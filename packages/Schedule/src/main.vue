@@ -10,7 +10,7 @@ export default {
       type: String,
       default: "名称"
     },
-    month: {
+    year: {
       type: String,
       required: false
     },
@@ -30,7 +30,7 @@ export default {
       }
   },
   mounted(){
-      this.date=this.month?this.month:moment().format('YYYY-MM')
+      //this.date=this.month?this.month:moment().format('YYYY-MM')
   },
   methods: {
     onSelectDate(date) {
@@ -44,13 +44,11 @@ export default {
         <ScContent
           rows={this.rows}
           title={this.title}
-          month={this.date}
-          onChange={this.onSelectDate}
         />
         <ScCalendar
           rows={this.rows}
           cellRender={this.cellRender}
-          month={this.date}
+          year={this.year}
           onChange={this.onSelectDate}
         />
       </div>
@@ -70,8 +68,6 @@ export default {
 
 .sc-calendar {
   overflow: auto;
-  border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 0px 4px 4px 0px;
-  border-left: 0;
 }
 </style>

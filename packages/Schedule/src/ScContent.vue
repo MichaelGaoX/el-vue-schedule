@@ -12,52 +12,55 @@ export default {
       required: false,
       default: _ => []
     },
-    month:{
-      type: String,
-      default:''
-    }
+    // month: {
+    //   type: String,
+    //   default: ''
+    // }
   },
   data() {
     return {
-      date:''
+      date: ''
     }
   },
-  watch:{
-    month(){
-      this.date=this.month;
+  watch: {
+    month() {
+      //this.date = this.month;
     }
   },
-  mounted(){
-    this.date=this.month?this.month:moment().format("YYYY-MM")
+  mounted() {
+    //this.date = this.month ? this.month : moment().format("YYYY-MM")
   },
-  methods:{
-    onChange(date){
-        this.date=date?moment(date).format("YYYY-MM"):''
-        if(this.date){
-          this.$emit('change',this.date)
-        }
-    }
+  methods: {
+    // onChange(date) {
+    //   console.log(date,'con')
+    //   this.date = date ? moment(date).format("YYYY-MM") : ''
+    //   if (this.date) {
+    //     this.$emit('change', this.date)
+    //   }
+    // }
   },
+
+  // <th>
+  //               <div class="cell" style="height:61px;">
+  //                 <el-date-picker
+  //                   type="month"
+  //                   placeholder="选择月份"
+  //                   size="mini"
+  //                   style="width:150px;margin: 15px 15px 15px 10px;"
+  //                   clearable={false}
+  //                   editable={false}
+  //                   value={this.date}
+  //                   onInput={this.onChange}
+  //                 ></el-date-picker>
+  //               </div>
+  //             </th>
   render(h) {
     return (
       <div class="sc-content">
         <table cellpadding="0" cellspacing="0">
           <thead>
             <tr>
-              <th>
-                <div class="cell" style="height:61px;">
-                  <el-date-picker
-                    type="month"
-                    placeholder="选择月份"
-                    size="mini"
-                    style="width:150px;margin: 15px 15px 15px 10px;"
-                    clearable={false}
-                    editable={false}
-                    value={this.date}
-                    onInput={this.onChange}
-                  ></el-date-picker>
-                </div>
-              </th>
+              
             </tr>
             <tr>
               <th>
@@ -86,11 +89,13 @@ export default {
 <style>
 .sc-content {
   width: 200px;
+  height: fit-content;
   overflow-x: hidden;
   flex-basis: 200px;
   flex-grow: 0;
   flex-shrink: 0;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  border-bottom: 0;
 }
 .sc-content table {
   width: 100%;
